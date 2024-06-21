@@ -3,6 +3,7 @@
 
 #include <fstream>
 #include "utils/DataTable.h"
+#include "utils/stringutils.h"
 
 namespace CSVTitan
 {

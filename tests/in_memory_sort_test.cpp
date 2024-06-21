@@ -141,4 +141,55 @@ namespace CSVTitanTest
 		}
 		EXPECT_TRUE(check);
 	}
+
+	TEST(InMemorySort, 1_col_string_desc)
+	{
+		// test data
+		CsvReader reader(CSV_DATA_TEST_SORT);
+		reader.getHeaders();
+		auto data = reader.getRows(1000);
+
+		// sort condition
+		vector<SortColumn> sortColumns;
+		SortColumn sortColumn;
+		sortColumn.index = 1;
+		sortColumn.sort_type = SortType::DESC;
+		sortColumn.data_type = ColumnDataType::STRING;
+		sortColumns.push_back(sortColumn);
+
+		InMemorySort* sorter = new StandardInMemorySort();
+		sorter->sortChunk(data, sortColumns);
+
+		bool check = true;
+
+		EXPECT_EQ((*data)[0][1], "Name99");
+		EXPECT_EQ((*data)[50][1], "Name53");
+		EXPECT_EQ((*data)[99][1], "Name1");
+	}
+
+	TEST(InMemorySort, 1_col_datetime_desc)
+	{
+		// test data
+		CsvReader reader(CSV_DATA_TEST_SORT);
+		reader.getHeaders();
+		auto data = reader.getRows(1000);
+
+		// sort condition
+		vector<SortColumn> sortColumns;
+		SortColumn sortColumn;
+		sortColumn.index = 4;
+		sortColumn.sort_type = SortType::DESC;
+		sortColumn.data_type = ColumnDataType::DATETIME;
+		sortColumn.format = "yyyy-MM-dd hh:mm:ss";// 2028-06-17 07:30:00
+		sortColumns.push_back(sortColumn);
+
+		InMemorySort* sorter = new StandardInMemorySort();
+		sorter->sortChunk(data, sortColumns);
+
+		bool check = true;
+
+		EXPECT_EQ((*data)[0][1], "Name100");
+		EXPECT_EQ((*data)[50][1], "Name50");
+		EXPECT_EQ((*data)[99][1], "Name1");
+	}
 }

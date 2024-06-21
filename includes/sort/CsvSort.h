@@ -32,6 +32,7 @@ namespace CSVTitan
 		int index; // index of the column in the CSV file
 		SortType sort_type; // data type of the column: 1: int, 2: double, 3: string, 4: date
 		ColumnDataType data_type; // sorting order: true for ascending, false for descending
+		string format; // format datetime
 	};
 
 	/*
