@@ -2,6 +2,7 @@
 #define InMemorySort_H
 
 #include "utils/DataTable.h"
+#include "utils/stringutils.h"
 #include "sort/CsvSort.h"
 
 using namespace std;
@@ -56,9 +57,23 @@ inline bool CSVTitan::InMemorySort::compare(const string* a, const string* b, co
 			else
 				return a_i > b_i;
 		}
+		else if (sortColumns[i].data_type == ColumnDataType::DATETIME) // date time
+		{
+			if (a[sortColumns[i].index] == "" || b[sortColumns[i].index] == "")
+				return false;
+			string left = simpleParseDate(&(a[sortColumns[i].index]), &(sortColumns[i].format));
+			string right = simpleParseDate(&(b[sortColumns[i].index]), &(sortColumns[i].format));
+
+			if (sortColumns[i].sort_type == SortType::ASC)
+				return left < right;
+			return left > right;
+		}
 		else // string
 		{
 			if (a[sortColumns[i].index] == b[sortColumns[i].index]) continue;
+			if (sortColumns[i].sort_type == SortType::ASC)
+				return a[sortColumns[i].index] < b[sortColumns[i].index];
+			return a[sortColumns[i].index] > b[sortColumns[i].index];
 		}
 	}
 
