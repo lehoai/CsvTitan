@@ -11,7 +11,7 @@ namespace CSVTitanTest
 		CsvReader reader(csv_path);
 		auto headers = reader.getHeaders();
 
-		EXPECT_EQ(headers, "id,name,age,height");
+		EXPECT_EQ(headers, "id,name,age,height,date");
 	};
 
 	TEST(CsvReaderTest, GetRows)

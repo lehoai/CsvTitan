@@ -20,7 +20,7 @@ enable_testing()
 add_executable(
   CSVTitanTest
   csv_reader_test.cpp
- "csv_writer_test.cpp" "csv_sort_test.cpp"  "in_memory_sort_test.cpp" "data_table_test.cpp")
+ "csv_writer_test.cpp" "csv_sort_test.cpp"  "in_memory_sort_test.cpp" "data_table_test.cpp" "utils_test.cpp")
 
 
 target_link_libraries(
